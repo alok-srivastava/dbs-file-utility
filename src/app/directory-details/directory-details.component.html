@@ -1,0 +1,349 @@
+<div
+  class="col-lg-12"
+  style="
+    background-color: lemonchiffon;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 20 px;
+  "
+>
+  <form>
+    <input
+      type="text"
+      [(ngModel)]="directoryPath"
+      id="directoryPath"
+      name="directoryPath"
+      required="required"
+    />
+    <button name="Fetch" title="Fetch" (click)="fetchDirDetail()">Fetch</button>
+    <button name="Reset" title="Reset" (click)="resetDetail()">Reset</button>
+  </form>
+</div>
+<p class="text-danger" *ngIf="showRequired" style="text-align: justify;">
+  Please enter the directory path
+</p>
+<p class="text-danger" *ngIf="doesnotexist" style="text-align: justify;">
+  No such directory exists !!
+</p>
+<div
+  *ngIf="showFileInfo"
+  class="container-fluid"
+  style="background-color: cornflowerblue;"
+>
+  <div class="container-fluid bg-info text-white text-center">
+    Files in given directory : {{ directoryInformation.directoryPath }}
+  </div>
+  <ul style="list-style-type: none;">
+    <li
+      *ngFor="let fileInformation of directoryInformation.files"
+      style="padding: top 10px;"
+    >
+      <div class="row">
+        <div
+          class="col-2 text-right"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          File Name:
+        </div>
+        <div
+          class="col-2 text-left"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          {{ fileInformation.fileName }}
+        </div>
+        <div
+          class="col-2 text-right"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          File Path:
+        </div>
+        <div
+          class="col-2 text-left"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          {{ fileInformation.absolutePath }}
+        </div>
+        <div
+          class="col-2 text-right"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          File Size:
+        </div>
+        <div
+          class="col-2 text-left"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          {{ fileInformation.fileSize }}
+        </div>
+        <div
+          class="col-2 text-right"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          File Owner:
+        </div>
+        <div
+          class="col-2 text-left"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          {{ fileInformation.fileOwner }}
+        </div>
+        <div
+          class="col-2 text-right"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          Created At:
+        </div>
+        <div
+          class="col-2 text-left"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          {{ fileInformation.creationTime }}
+        </div>
+        <div
+          class="col-2 text-right"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          Last Modified At:
+        </div>
+        <div
+          class="col-2 text-left"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          {{ fileInformation.lastModified }}
+        </div>
+        <div
+          class="col-2 text-right"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          Last Accessed At:
+        </div>
+        <div
+          class="col-10 text-left"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: small;
+            border-style: ridge;
+          "
+        >
+          {{ fileInformation.lastAccessed }}
+        </div>
+      </div>
+      <hr />
+    </li>
+  </ul>
+
+  <ul style="list-style-type: none;">
+    <li *ngFor="let directoryInformation of directoryInformation.directories">
+      <div *ngIf="!directoryInformation.files">
+        <div class="container-fluid bg-info text-white text-center">
+          No Files in sub directory : {{ directoryInformation.directoryPath }}
+        </div>
+      </div>
+      <div *ngIf="directoryInformation.files">
+        <div class="container-fluid bg-info text-white text-center">
+          Files in sub directory : {{ directoryInformation.directoryPath }}
+        </div>
+
+        <ul style="list-style-type: none;">
+          <li *ngFor="let fileee of directoryInformation.files">
+            <div class="row" style="padding-bottom: 6px;">
+              <div
+                class="col-2 text-right"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                File Name:
+              </div>
+              <div
+                class="col-2 text-left"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                {{ fileee.fileName }}
+              </div>
+              <div
+                class="col-2 text-right"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                File Path:
+              </div>
+              <div
+                class="col-2 text-left"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                {{ fileee.absolutePath }}
+              </div>
+              <div
+                class="col-2 text-right"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                File Size:
+              </div>
+              <div
+                class="col-2 text-left"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                {{ fileee.fileSize }}
+              </div>
+              <div
+                class="col-2 text-right"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                File Owner
+              </div>
+              <div
+                class="col-2 text-left"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                {{ fileee.fileOwner }}
+              </div>
+              <div
+                class="col-2 text-right"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                Created At:
+              </div>
+              <div
+                class="col-2 text-left"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                {{ fileee.creationTime }}
+              </div>
+              <div
+                class="col-2 text-right"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                Last Modified At:
+              </div>
+              <div
+                class="col-2 text-left"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                {{ fileee.lastModified }}
+              </div>
+              <div
+                class="col-2 text-right"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                  border-style: ridge;
+                "
+              >
+                Last Accessed At:
+              </div>
+              <div
+                class="col-10 text-left"
+                style="
+                  font-family: Verdana, Geneva, Tahoma, sans-serif;
+                  font-size: small;
+                "
+              >
+                {{ fileee.lastAccessed }}
+              </div>
+            </div>
+            <hr />
+          </li>
+        </ul>
+      </div>
+      <hr />
+    </li>
+  </ul>
+</div>
